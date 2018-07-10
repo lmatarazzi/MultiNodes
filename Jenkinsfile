@@ -1,21 +1,15 @@
 pipeline {
     agent { label 'Win-Slave' }
-
-    stages {
-        stage('Build') {
-            steps {
-                echo 'Building..'
-            }
-        }
-        stage('Test') {
-            steps {
-                echo 'Testing..'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
-            }
+    stage('Git Checkout') {
+		try {
+		    // notify via slack that a build has started
+            notifyBuild('STARTED Checkout ...')
+		    checkout scm	
+	       notifyBuild('DONE Checkout!')		
+		} catch(e) {
+            currentBuild.result = "Checkout failed"
+            notifyBuild(currentBuild.result)
+            throw e
         }
     }
 }
