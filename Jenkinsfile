@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'Slave-Win' }
+    agent { label 'Win-Slave' }
 
     stages {
         stage('Build') {
